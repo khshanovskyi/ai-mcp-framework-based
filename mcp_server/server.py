@@ -5,13 +5,12 @@ import requests
 from mcp.server.fastmcp import FastMCP
 from pydantic import BaseModel, Field
 
-#TODO:
-# Create FastMCP object:
-#   - name="test-mcp-server",
-#   - host="0.0.0.0",
-#   - port=8005,
-#   - log_level="DEBUG"
-mcp: FastMCP = None
+mcp = FastMCP(
+    name="test-mcp-server",
+    host="0.0.0.0",
+    port=8005,
+    log_level="DEBUG"
+)
 
 # Constants
 DIAL_ENDPOINT = os.getenv("DIAL_ENDPOINT", "https://ai-proxy.lab.epam.com") + "/openai/deployments/{model}/chat/completions"
@@ -22,7 +21,7 @@ class WebSearchRequest(BaseModel):
     request: str = Field(description="The search query or question to search for on the web")
 
 
-#TODO: Add decorator `@mcp.tool()`
+@mcp.tool()
 def web_search(args: WebSearchRequest) -> str:
     """Performs WEB search"""
 
@@ -64,7 +63,7 @@ class CalculatorRequest(BaseModel):
     operation: Operation = Field(description="The mathematical operation to perform (add, subtract, multiply, or divide)")
 
 
-#TODO: Add decorator `@mcp.tool()`
+@mcp.tool()
 async def simple_calculator(args: CalculatorRequest) -> str:
     """Execute basic calculator operation (one per request)"""
     if args.operation == Operation.ADD:

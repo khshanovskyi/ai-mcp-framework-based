@@ -13,22 +13,17 @@ from agent.models.message import Message, Role
 async def main():
     mcp_client = MCPClient()
 
-    #TODO:
-    # 1. Connect to MCP server via `mcp_client`, mcp_server_url="http://localhost:8005/mcp"
-    # 2. Get MCP tools and assign to `tools` variable
-    # 3. Optional: Print tools to console
-    #       for tool in tools: print(f"{json.dumps(tool, indent=2)}")
-    # 4. Create DialClient:
-    #       - api_key=os.getenv("DIAL_API_KEY")
-    #       - endpoint="https://ai-proxy.lab.epam.com"
-    #       - tools=tools
-    #       - mcp_client=mcp_client
-    # ---
-    # 5. Optional:
-    #   Try with different MCP Servers:
-    #       - https://mcp.deepwiki.com/mcp
-    #       - https://remote.mcpservers.org/fetch/mcp
+    await mcp_client.connect(mcp_server_url="http://localhost:8005/mcp")
+    tools: list[dict] = await mcp_client.get_tools()
+    for tool in tools:
+        print(f"{json.dumps(tool, indent=2)}")
 
+    dial_client = DialClient(
+        api_key=os.getenv("DIAL_API_KEY"),
+        endpoint="https://ai-proxy.lab.epam.com",
+        tools=tools,
+        mcp_client=mcp_client
+    )
 
     messages: list[Message] = [
         Message(

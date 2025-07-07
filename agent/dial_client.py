@@ -88,14 +88,16 @@ class DialClient:
             tool_args = json.loads(tool_call["function"]["arguments"])
 
             try:
-                #TODO:
-                # 1. Call `await self.mcp_client.call_tool(tool_name, tool_args)` and assign to `tool_result`
-                # 2. Create Message with:
-                #   - role=Role.TOOL
-                #   - content=str(tool_result)
-                #   - tool_call_id=tool_call["id"]
-                # 3. Append created message to `messages`
+                tool_result = await self.mcp_client.call_tool(tool_name, tool_args)
 
+                # Add tool result to history
+                messages.append(
+                    Message(
+                        role=Role.TOOL,
+                        content=str(tool_result),
+                        tool_call_id=tool_call["id"],
+                    )
+                )
             except Exception as e:
                 error_msg = f"Error: {e}"
                 print(f"Error: {error_msg}")
