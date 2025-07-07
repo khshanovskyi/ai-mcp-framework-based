@@ -21,6 +21,8 @@ class MCPClient:
         # 3. Create `ClientSession(read_stream, write_stream)` and assign to `self._session_context`
         # 4. Call `await self._session_context.__aenter__()` and assign it to `self.session`
         # 5. Call `self.session.initialize()`
+        # ---
+        # Optional: Ping to MCP server to check the it is alive (method `send_ping`)
 
 
     async def get_tools(self) -> list[dict[str, Any]]:
