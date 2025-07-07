@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  test-dial-mcp-server-framework-based:
+    build: .
+    ports:
+      - "8005:8005"
+    environment:
+      - DIAL_ENDPOINT=${DIAL_ENDPOINT:-https://ai-proxy.lab.epam.com}
+      - DIAL_API_KEY=${DIAL_API_KEY}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8005/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
