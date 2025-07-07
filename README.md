@@ -9,8 +9,10 @@ Create and run MCP server with simple tools. Implement simple Agent with MCP Cli
 
 By exploring and working with this project, you will learn:
 
-- **Tool Calling Systems**: Learn how to implement and integrate AI tools for enhanced functionality
-- **Multi-Modal AI**: Work with text, image analysis, and web search capabilities
+- How to configure simple MCP server
+- How to configure client and connect to MCP server
+- How to create simple Agent with tools from MCP server
+- Key features of MCP
 
 ## 🏗️ Architecture
 
@@ -80,6 +82,8 @@ What is the weather in Kyiv now?
 ```text
 Make an essay for 300 tokens about the CURRENT weather in Krakow
 ```
+### Result:
+<img src="conversation_sample.png">
 
 ---
 # <img src="dialx-banner.png">
