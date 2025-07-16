@@ -55,7 +55,7 @@ class MCPClient:
 
         #TODO:
         # 1. Call `await self.session.call_tool(tool_name, tool_args)` and assign to `tool_result: CallToolResult` variable
-        # 2. Get `content` from `tool_result` and assign to `content` variable
+        # 2. Get `content` with index `0` from `tool_result` and assign to `content` variable
         # 3. print(f"    ⚙️: {content}\n")
         # 4. If `isinstance(content, TextContent)` -> return content.text
         #    else -> return content
