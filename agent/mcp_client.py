@@ -52,7 +52,7 @@ class MCPClient:
         print(f"    Calling `{tool_name}` with {tool_args}")
 
         tool_result: CallToolResult = await self.session.call_tool(tool_name, tool_args)
-        content = tool_result.content
+        content = tool_result.content[0]
 
         print(f"    ⚙️: {content}\n")
 
