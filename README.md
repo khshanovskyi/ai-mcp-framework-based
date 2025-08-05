@@ -67,9 +67,7 @@ task/
 
 ### Create and run Agent:
 1. Open [mcp_client](agent/mcp_client.py) and implement all ***TODO***
-2. Open [mcp_client](agent/dial_client.py) and implement all ***TODO***
-3. Open [mcp_client](agent/app.py) and implement all ***TODO***
-4. Run application [mcp_client](agent/app.py) and test that it is connecting to MCP Server and works properly
+2. Run application [mcp_client](agent/app.py) and test that it is connecting to MCP Server and works properly
 
 
 ## 🧪 Testing:
