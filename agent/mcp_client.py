@@ -8,13 +8,13 @@ from mcp.types import CallToolResult, TextContent
 class MCPClient:
     """Handles MCP server connection and tool execution"""
 
-    def __init__(self, ) -> None:
+    def __init__(self, mcp_server_url: str) -> None:
+        self.mcp_server_url = mcp_server_url
         self.session: Optional[ClientSession] = None
         self._streams_context = None
         self._session_context = None
 
-    async def connect(self, mcp_server_url: str):
-        """Connect to MCP server"""
+    async def __aenter__(self):
         #TODO:
         # 1. Call `streamablehttp_client` method with `mcp_server_url` and assign to `self._streams_context`
         # 2. Call `await self._streams_context.__aenter__()` and assign to `read_stream, write_stream, _`
@@ -23,6 +23,12 @@ class MCPClient:
         # 5. Call `self.session.initialize()`
         # ---
         # Optional: Ping to MCP server to check the it is alive (method `send_ping`)
+
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
+        #TODO:
+        # This is shutdown method.
+        # If session is present and session context is present as well then shutdown the session context (__aexit__ method with params)
+        # If streams context is present then shutdown the streams context (__aexit__ method with params)
 
 
     async def get_tools(self) -> list[dict[str, Any]]:

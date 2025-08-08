@@ -23,7 +23,7 @@ class WebSearchRequest(BaseModel):
 
 
 #TODO: Add decorator `@mcp.tool()`
-def web_search(args: WebSearchRequest) -> str:
+async def web_search(args: WebSearchRequest) -> str:
     """Performs WEB search"""
 
     headers = {
@@ -60,34 +60,12 @@ def web_search(args: WebSearchRequest) -> str:
     else:
         return f"Error: {response.status_code} {response.text}"
 
-
-class Operation(StrEnum):
-    ADD = "add"
-    SUBTRACT = "subtract"
-    MULTIPLY = "multiply"
-    DIVIDE = "divide"
-
-
-class CalculatorRequest(BaseModel):
-    num1: float = Field(description="The first number for the calculation")
-    num2: float = Field(description="The second number for the calculation")
-    operation: Operation = Field(description="The mathematical operation to perform (add, subtract, multiply, or divide)")
-
-
-#TODO: Add decorator `@mcp.tool()`
-async def simple_calculator(args: CalculatorRequest) -> str:
-    """Execute basic calculator operation (one per request)"""
-    if args.operation == Operation.ADD:
-        result = args.num1 + args.num2
-    elif args.operation == Operation.SUBTRACT:
-        result = args.num1 - args.num2
-    elif args.operation == Operation.MULTIPLY:
-        result = args.num1 * args.num2
-    elif args.operation == Operation.DIVIDE:
-        if args.num2 == 0:
-            return "Error: Division by zero"
-        result = args.num1 / args.num2
-    return f"Result: {result}"
+#TODO:
+# Add `simple_calculator` - calculator tool that performs basic calculations (add, subtract, multiply, divide).
+# Hint 1: Take a look at how the `web_search` is implemented
+# Hint 2: Use Pydentic models to create `CalculatorRequest` with arguments that your mcp tool applies. With this Pydentic
+#         model you will be able to provide arguments descriptions (they are crucial for LLM).
+# Hint 3: Don't forget about decorator^)
 
 
 if __name__ == "__main__":

@@ -7,12 +7,7 @@ from agent.dial_client import DialClient
 from agent.models.message import Message, Role
 
 
-# https://mcp.deepwiki.com/mcp
-# https://remote.mcpservers.org/fetch/mcp
-
 async def main():
-    mcp_client = MCPClient()
-
     #TODO:
     # 1. Connect to MCP server via `mcp_client`, mcp_server_url="http://localhost:8005/mcp"
     # 2. Get MCP tools and assign to `tools` variable
@@ -23,8 +18,10 @@ async def main():
     #       - endpoint="https://ai-proxy.lab.epam.com"
     #       - tools=tools
     #       - mcp_client=mcp_client
+    # 5. Create list with messages and add there SYSTEM message with instructions to LLM
+    # 6. Create console chat
     # ---
-    # 5. Optional:
+    # 7. Optional:
     #   Try with different MCP Servers:
     #       - https://mcp.deepwiki.com/mcp
     #       - https://remote.mcpservers.org/fetch/mcp
