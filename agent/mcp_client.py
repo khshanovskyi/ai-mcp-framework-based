@@ -16,12 +16,10 @@ class MCPClient:
 
     async def __aenter__(self):
         self._streams_context = streamablehttp_client(self.mcp_server_url)
-        self._streams_cm = self._streams_context.__aenter__()
-        read_stream, write_stream, _ = await self._streams_cm
+        read_stream, write_stream, _ = await self._streams_context.__aenter__()
 
         self._session_context = ClientSession(read_stream, write_stream)
-        self._session_cm = self._session_context.__aenter__()
-        self.session = await self._session_cm
+        self.session = await self._session_context.__aenter__()
 
         await self.session.initialize()
 
