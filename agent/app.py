@@ -19,36 +19,12 @@ async def main():
     #       - tools=tools
     #       - mcp_client=mcp_client
     # 5. Create list with messages and add there SYSTEM message with instructions to LLM
-    # 6. Create console chat
+    # 6. Create console chat (preserve message history)
     # ---
     # 7. Optional:
     #   Try with different MCP Servers:
     #       - https://mcp.deepwiki.com/mcp
     #       - https://remote.mcpservers.org/fetch/mcp
-
-
-    messages: list[Message] = [
-        Message(
-            role=Role.SYSTEM,
-            content="You are an advanced AI agent. Your goal is to assist user with his questions."
-        )
-    ]
-
-    print("MCP-based Agent is ready! Type your query or 'exit' to exit.")
-    while True:
-        user_input = input("\n> ").strip()
-        if user_input.lower() == 'exit':
-            break
-
-        messages.append(
-            Message(
-                role=Role.USER,
-                content=user_input
-            )
-        )
-
-        ai_message: Message = await dial_client.get_completion(messages)
-        messages.append(ai_message)
 
 
 if __name__ == "__main__":
