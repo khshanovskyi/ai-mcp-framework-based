@@ -8,23 +8,33 @@ from mcp.types import CallToolResult, TextContent
 class MCPClient:
     """Handles MCP server connection and tool execution"""
 
-    def __init__(self, ) -> None:
+    def __init__(self, mcp_server_url: str) -> None:
+        self.mcp_server_url = mcp_server_url
         self.session: Optional[ClientSession] = None
         self._streams_context = None
         self._session_context = None
 
-    async def connect(self, mcp_server_url: str):
-        """Connect to MCP server"""
-        self._streams_context = streamablehttp_client(mcp_server_url)
-        read_stream, write_stream, _ = await self._streams_context.__aenter__()
+    async def __aenter__(self):
+        self._streams_context = streamablehttp_client(self.mcp_server_url)
+        self._streams_cm = self._streams_context.__aenter__()
+        read_stream, write_stream, _ = await self._streams_cm
 
         self._session_context = ClientSession(read_stream, write_stream)
-        self.session: ClientSession = await self._session_context.__aenter__()
+        self._session_cm = self._session_context.__aenter__()
+        self.session = await self._session_cm
 
         await self.session.initialize()
 
         if not await self.session.send_ping():
             raise ValueError("MCP server connection failed")
+
+        return self
+
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
+        if self.session and self._session_context:
+            await self._session_context.__aexit__(exc_type, exc_val, exc_tb)
+        if self._streams_context:
+            await self._streams_context.__aexit__(exc_type, exc_val, exc_tb)
 
     async def get_tools(self) -> list[dict[str, Any]]:
         """Get available tools from MCP server"""

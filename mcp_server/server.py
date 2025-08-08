@@ -22,7 +22,7 @@ class WebSearchRequest(BaseModel):
 
 
 @mcp.tool()
-def web_search(args: WebSearchRequest) -> str:
+async def web_search(args: WebSearchRequest) -> str:
     """Performs WEB search"""
 
     headers = {
