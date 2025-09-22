@@ -38,18 +38,8 @@ class MCPClient:
             raise RuntimeError("MCP client not connected. Call connect() first.")
         #TODO:
         # 1. Call `await self.session.list_tools()` and assign to `tools`
-        # 2. Return list with dicts:
-        #        [
-        #             {
-        #                 "type": "function",
-        #                 "function": {
-        #                     "name": tool.name,
-        #                     "description": tool.description,
-        #                     "parameters": tool.inputSchema
-        #                 }
-        #             }
-        #             for tool in tools.tools
-        #         ]
+        # 2. Return list with dicts with tool schemas. It should be provided according to DIAL specification
+        #    https://dialx.ai/dial_api#operation/sendChatCompletionRequest (request -> tools)
         raise NotImplementedError()
 
     async def call_tool(self, tool_name: str, tool_args: dict[str, Any]) -> Any:

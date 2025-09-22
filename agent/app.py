@@ -20,11 +20,7 @@ async def main():
     #    mcp_server_url="http://localhost:8005/mcp"
     # 2. Get Available MCP Resources and print them
     # 3. Get Available MCP Tools, assign to `tools` variable, print tool as well
-    # 4. Create DialClient:
-    #       - api_key=os.getenv("DIAL_API_KEY")
-    #       - endpoint="https://ai-proxy.lab.epam.com"
-    #       - tools=tools
-    #       - mcp_client=mcp_client
+    # 4. Create DialClient
     # 5. Create list with messages and add there SYSTEM_PROMPT with instructions to LLM
     # 6. Add to messages Prompts from MCP server as User messages
     # 7. Create console chat (infinite loop + ability to exit from chat + preserve message history after the call to dial client)
