@@ -22,6 +22,7 @@ task/
 │   ├── models/           
 │   │   └──message.py        ✅ Complete
 │   ├── app.py                🚧 TODO: implement logic
+│   ├── promps.py             🚧 TODO: write system prompt
 │   ├── dial_client.py        🚧 TODO: implement logic
 │   └── mcp_cleint.py         🚧 TODO: implement logic
 └── mcp_server/               

@@ -5,44 +5,59 @@ from mcp.server.fastmcp import FastMCP
 from mcp_server.models.user_info import UserSearchRequest, UserCreate, UserUpdate
 from mcp_server.user_client import UserClient
 
+#TODO:
+# 1. Create instance of FastMCP as `mcp` (or another name if you wish) with:
+#       - name="test-mcp-server",
+#       - host="0.0.0.0",
+#       - port=8005,
+#       - log_level="DEBUG"
+# 2. Create UserClient
+
 mcp = FastMCP(
     name="users-management-mcp-server",
     host="0.0.0.0",
     port=8005,
     log_level="DEBUG"
 )
-
-user_client = UserClient()
-
-# ==================== EXISTING TOOLS ====================
-@mcp.tool()
-async def get_user_id(user_id: int) -> str:
-    """Provides full user information by user_id"""
-    return await user_client.get_user(user_id)
-
-@mcp.tool()
-async def delete_user(user_id: int) -> str:
-    """Deletes user by user_id"""
-    return await user_client.delete_user(user_id)
-
-@mcp.tool()
-async def search_user(search_user_request: UserSearchRequest) -> str:
-    """Searches for users by name, surname, email and gender"""
-    return await user_client.search_users(**search_user_request.model_dump())
-
-@mcp.tool()
-async def add_user(user_create_model: UserCreate) -> str:
-    """Adds new user into the system"""
-    return await user_client.add_user(user_create_model)
-
-@mcp.tool()
-async def update_user(user_id: int, user_update_model: UserUpdate) -> str:
-    """Updates user by user_id"""
-    return await user_client.update_user(user_id, user_update_model)
+# ==================== TOOLS ====================
+#TODO:
+# You need to add all the tools here. You will need to create 5 async methods and mark them as @mcp.tool() (if you
+# named FastMCP not as `mcp` then use the name that you have used). All tools return `str`.
+# https://gofastmcp.com/servers/tools
+# ---
+# Tools:
+# 1. `get_user_id`:-
+#       - Documentation: """Provides full user information by user_id""", will be used as tool description, also you
+#         can provide it with `description` parameter in `tool()` decorator
+#       - applies `user_id: int`
+#       - call UserClient `get_user` and return its result
+# 2. `delete_user`:-
+#       - Description: """Deletes user by user_id"""
+#       - applies `user_id: int`
+#       - call UserClient `delete_user` and return its result
+# 3. `search_user`:-
+#       - Description: """Searches for users by name, surname, email and gender"""
+#       - applies `search_user_request: UserSearchRequest`
+#       - call UserClient `search_users` with dumped dict (**search_user_request.model_dump()) and return its result
+# 4. `add_user`:-
+#       - Description: """Adds new user into the system"""
+#       - applies `user_create_model: UserCreate`
+#       - call UserClient `add_user` and return its result
+# 5. `update_user`:-
+#       - Description: """Updates user by user_id"""
+#       - applies `user_id: int, user_update_model: UserUpdate`
+#       - call UserClient `update_user` and return its result
 
 # ==================== MCP RESOURCES ====================
 
-@mcp.resource("users-management://flow-diagram", mime_type="image/png")
+#TODO:
+# Provides screenshot with Swagger endpoints of User Service. We need for the case to show you that MCP servers can
+# provide some static resources.
+# https://gofastmcp.com/servers/resources
+# ---
+# Mark as `@mcp.resource` with:
+#   - uri = "users-management://flow-diagram"
+#   - mime_type="image/png"
 async def get_flow_diagram() -> bytes:
     """The Users Management Service flow diagram as PNG image"""
 
@@ -56,7 +71,12 @@ async def get_flow_diagram() -> bytes:
 
 # ==================== MCP PROMPTS ====================
 
-@mcp.prompt()
+#TODO:
+# Provides static prompts that can be used by Clients
+# https://gofastmcp.com/servers/prompts
+# ---
+# You need to mark as `prompt` two methods below
+
 async def user_search_assistant_prompt() -> str:
     """Helps users formulate effective search queries"""
     return """
@@ -109,7 +129,7 @@ When helping users search, suggest multiple search strategies and explain
 why certain approaches might be more effective for their goals.
 """
 
-@mcp.prompt()
+
 async def user_profile_creation_prompt() -> str:
     """Guides creation of realistic user profiles"""
     return """
@@ -185,6 +205,6 @@ When creating profiles, aim for diversity in:
 
 
 if __name__ == "__main__":
-    mcp.run(
-        transport="streamable-http"
-    )
+    #TODO:
+    # Run server with `transport="streamable-http"`
+    raise NotImplementedError()
