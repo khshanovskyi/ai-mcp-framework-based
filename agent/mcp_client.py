@@ -25,9 +25,6 @@ class MCPClient:
         init_result = await self.session.initialize()
         print(init_result.model_dump_json(indent=2))
 
-        if not await self.session.send_ping():
-            raise ValueError("MCP server connection failed")
-
         return self
 
     async def __aexit__(self, exc_type, exc_val, exc_tb):
