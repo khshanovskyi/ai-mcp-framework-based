@@ -20,7 +20,7 @@ By exploring and working with this project, you will learn:
 task/
 ├── agent/
 │   ├── models/           
-│   │   ├── message.py        ✅ Complete
+│   │   └──message.py        ✅ Complete
 │   ├── app.py                🚧 TODO: implement logic
 │   ├── dial_client.py        🚧 TODO: implement logic
 │   └── mcp_cleint.py         🚧 TODO: implement logic
