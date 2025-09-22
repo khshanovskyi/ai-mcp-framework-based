@@ -7,18 +7,13 @@ from mcp_server.user_client import UserClient
 
 #TODO:
 # 1. Create instance of FastMCP as `mcp` (or another name if you wish) with:
-#       - name="test-mcp-server",
+#       - name="users-management-mcp-server",
 #       - host="0.0.0.0",
 #       - port=8005,
 #       - log_level="DEBUG"
 # 2. Create UserClient
 
-mcp = FastMCP(
-    name="users-management-mcp-server",
-    host="0.0.0.0",
-    port=8005,
-    log_level="DEBUG"
-)
+
 # ==================== TOOLS ====================
 #TODO:
 # You need to add all the tools here. You will need to create 5 async methods and mark them as @mcp.tool() (if you
