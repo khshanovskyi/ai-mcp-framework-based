@@ -43,6 +43,8 @@ task/
 - Postman
 
 ## ✍️ Tasks:
+If the task in the main branch is hard for you, then switch to the `with-detailed-description` branch
+
 You need to implement the Users Management Agent, that will be able to perform CRUD operations within User Management Service.
 
 ### Create and run MCP server:
