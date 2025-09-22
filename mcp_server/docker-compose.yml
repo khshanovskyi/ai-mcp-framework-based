@@ -1,13 +1,12 @@
 version: '3.8'
 
 services:
-  test-dial-mcp-server-framework-based:
+  user_management_mcp-server-framework-based:
     build: .
     ports:
       - "8005:8005"
     environment:
-      - DIAL_ENDPOINT=${DIAL_ENDPOINT:-https://ai-proxy.lab.epam.com}
-      - DIAL_API_KEY=${DIAL_API_KEY}
+      - USERS_MANAGEMENT_SERVICE_URL=${USERS_MANAGEMENT_SERVICE_URL:-http://localhost:8041}
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8005/health"]
       interval: 30s
