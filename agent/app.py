@@ -2,20 +2,30 @@ import asyncio
 import json
 import os
 
+from mcp import Resource
+from mcp.types import Prompt
+
 from agent.mcp_client import MCPClient
 from agent.dial_client import DialClient
 from agent.models.message import Message, Role
+from agent.prompts import SYSTEM_PROMPT
 
 
-# https://mcp.deepwiki.com/mcp
 # https://remote.mcpservers.org/fetch/mcp
+# Pay attention that `fetch` doesn't have resources and prompts
 
 async def main():
 
-    async with MCPClient(mcp_server_url="http://localhost:8005/mcp") as mcp_client:
+    async with MCPClient(mcp_server_url="https://remote.mcpservers.org/fetch/mcp") as mcp_client:
+        print("\n=== Available Resources ===")
+        resources: list[Resource] = await mcp_client.get_resources()
+        for resource in resources:
+            print(resource)
+
+        print("\n=== Available Tools ===")
         tools: list[dict] = await mcp_client.get_tools()
         for tool in tools:
-            print(f"{json.dumps(tool, indent=2)}")
+            print(json.dumps(tool, indent=2))
 
         dial_client = DialClient(
             api_key=os.getenv("DIAL_API_KEY"),
@@ -27,9 +37,22 @@ async def main():
         messages: list[Message] = [
             Message(
                 role=Role.SYSTEM,
-                content="You are an advanced AI agent. Your goal is to assist user with his questions."
+                content=SYSTEM_PROMPT
             )
         ]
+
+        print("\n=== Available Prompts ===")
+        prompts: list[Prompt] = await mcp_client.get_prompts()
+        for prompt in prompts:
+            print(prompt)
+            content = await mcp_client.get_prompt(prompt.name)
+            print(content)
+            messages.append(
+                Message(
+                    role=Role.USER,
+                    content=f"## Prompt provided by MCP server:\n{prompt.description}\n{content}"
+                )
+            )
 
         print("MCP-based Agent is ready! Type your query or 'exit' to exit.")
         while True:

@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "79c47e44-41d6-4163-8e96-e1685edc8e4e",
+		"_postman_id": "6b331794-cfcf-429b-9f2d-c27a6d685c0f",
 		"name": "mcp",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "13054272"
@@ -168,7 +168,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"tools/call\",\n    \"params\": {\n        \"name\": \"simple_calculator\",\n        \"arguments\": {\n            \"args\": {\n                \"num1\": 322,\n                \"num2\": 22,\n                \"operation\": \"add\"\n            }\n        }\n    }\n}",
+					"raw": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"tools/call\",\n    \"params\": {\n        \"name\": \"get_user_id\",\n        \"arguments\": {\n            \"user_id\": 999\n        }\n    }\n}",
 					"options": {
 						"raw": {
 							"language": "json"
