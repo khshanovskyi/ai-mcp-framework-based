@@ -16,19 +16,19 @@ class MCPClient:
         self._process = None
 
     async def __aenter__(self):
-        server_params = StdioServerParameters(
-            command="docker",
-            args=["run", "--rm", "-i", self.docker_image]
-        )
-
-        print(f"Starting Docker container: {self.docker_image}")
-        self._stdio_context = stdio_client(server_params)
-
-        read_stream, write_stream = await self._stdio_context.__aenter__()
-        print("Docker container started. To check container use such command:\ndocker ps --filter 'ancestor=mcp/duckduckgo:latest'")
-
-        self._session_context = ClientSession(read_stream, write_stream)
-        self.session = await self._session_context.__aenter__()
+        #TODO:
+        # https://hub.docker.com/mcp/server/duckduckgo/overview
+        # https://github.com/nickclyde/duckduckgo-mcp-server
+        # 1. Create StdioServerParameters with:
+        #       - command="docker"
+        #       - args=["run", "--rm", "-i", self.docker_image]
+        # 2. Init `_stdio_context` with `stdio_client(server_params)`
+        # 3. Create `read_stream, write_stream` with `await self._stdio_context.__aenter__()`
+        #    when you run the app you can check that container was started locally: docker ps --filter 'ancestor=mcp/duckduckgo:latest'
+        # 4. Create ClientSession with `read_stream, write_stream` and assign to the `_session_context`
+        # 5. Init `session` with `await self._session_context.__aenter__()`
+        # 6. Call `self.session.initialize()`, and print its result (to check capabilities of MCP server later)
+        # 7. return self
 
         print("Initializing MCP session...")
         init_result = await self.session.initialize()
@@ -37,80 +37,62 @@ class MCPClient:
         return self
 
     async def __aexit__(self, exc_type, exc_val, exc_tb):
-        if self.session and self._session_context:
-            await self._session_context.__aexit__(exc_type, exc_val, exc_tb)
-        if self._stdio_context:
-            await self._stdio_context.__aexit__(exc_type, exc_val, exc_tb)
+        #TODO:
+        # This is shutdown method.
+        # If session is present and session context is present as well then shutdown the session context (__aexit__ method with params)
+        # If stdio context is present then shutdown the stdio context (__aexit__ method with params)
+        raise NotImplementedError()
 
     async def get_tools(self) -> list[dict[str, Any]]:
         """Get available tools from MCP server"""
         if not self.session:
             raise RuntimeError("MCP client not connected. Call connect() first.")
 
-        try:
-            tools_result = await self.session.list_tools()
-            print(f"Retrieved {len(tools_result.tools)} tools from MCP server")
-
-            dial_tools = []
-            for tool in tools_result.tools:
-                dial_tool = {
-                    "type": "function",
-                    "function": {
-                        "name": tool.name,
-                        "description": tool.description,
-                        "parameters": tool.inputSchema
-                    }
-                }
-                dial_tools.append(dial_tool)
-
-            return dial_tools
-        except Exception as e:
-            print(f"Error getting tools: {e}")
-            return []
+        #TODO:
+        # 1. Call `await self.session.list_tools()` and assign to `tools`
+        # 2. Return list with dicts:
+        #        [
+        #             {
+        #                 "type": "function",
+        #                 "function": {
+        #                     "name": tool.name,
+        #                     "description": tool.description,
+        #                     "parameters": tool.inputSchema
+        #                 }
+        #             }
+        #             for tool in tools.tools
+        #         ]
+        raise NotImplementedError()
 
     async def call_tool(self, tool_name: str, tool_args: dict[str, Any]) -> Any:
         """Call a specific tool on the MCP server"""
         if not self.session:
             raise RuntimeError("MCP client not connected. Call connect() first.")
 
-        try:
-            print(f"Calling tool '{tool_name}' with args: {tool_args}")
-            tool_result: CallToolResult = await self.session.call_tool(tool_name, tool_args)
-
-            if not tool_result.content:
-                return "No content returned from tool"
-
-            content = tool_result.content[0]
-            print(f"    ⚙️ Tool result: {content}")
-
-            if isinstance(content, TextContent):
-                return content.text
-
-            return str(content)
-        except Exception as e:
-            print(f"Error calling tool '{tool_name}': {e}")
-            return f"Error: {e}"
+        print(f"    🔧 Calling `{tool_name}` with {tool_args}")
+        #TODO:
+        # 1. Call `await self.session.call_tool(tool_name, tool_args)` and assign to `tool_result: CallToolResult` variable
+        # 2. Get `content` with index `0` from `tool_result` and assign to `content` variable
+        # 3. print(f"    ⚙️: {content}\n")
+        # 4. If `isinstance(content, TextContent)` -> return content.text
+        #    else -> return content
+        raise NotImplementedError()
 
     async def get_resources(self) -> list[Resource]:
         """Get available resources from MCP server"""
         if not self.session:
             raise RuntimeError("MCP client not connected.")
-
-        try:
-            result = await self.session.list_resources()
-            return result.resources
-        except Exception as e:
-            print(f"Server doesn't support list_resources: {e}")
-            return []
+        #TODO:
+        # Wrap into try/except (not all MCP servers have resources), get `list_resources` (it is async) and resources
+        # from it. In case of error print error and return an empty array
+        raise NotImplementedError()
 
     async def get_prompts(self) -> list[Prompt]:
         """Get available prompts from MCP server"""
         if not self.session:
             raise RuntimeError("MCP client not connected.")
 
-        try:
-            result = await self.session.list_prompts()
-            return result.prompts
-        except Exception as e:
-            print(f"Server doesn't support list_prompts: {e}")
-            return []
+        #TODO:
+        # Wrap into try/except (not all MCP servers have prompts), get `list_prompts` (it is async) and prompts
+        # from it. In case of error print error and return an empty array
+        raise NotImplementedError()
