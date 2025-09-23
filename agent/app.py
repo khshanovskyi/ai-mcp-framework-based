@@ -16,7 +16,7 @@ from agent.prompts import SYSTEM_PROMPT
 
 async def main():
 
-    async with MCPClient(mcp_server_url="https://remote.mcpservers.org/fetch/mcp") as mcp_client:
+    async with MCPClient(mcp_server_url="http://localhost:8005/mcp") as mcp_client:
         print("\n=== Available Resources ===")
         resources: list[Resource] = await mcp_client.get_resources()
         for resource in resources:
