@@ -25,7 +25,8 @@ class MCPClient:
         self._stdio_context = stdio_client(server_params)
 
         read_stream, write_stream = await self._stdio_context.__aenter__()
-        print("Docker container started. To check container use such command:\ndocker ps --filter 'ancestor=mcp/duckduckgo:latest'")
+        print(
+            "Docker container started. To check container use such command:\ndocker ps --filter 'ancestor=mcp/duckduckgo:latest'")
 
         self._session_context = ClientSession(read_stream, write_stream)
         self.session = await self._session_context.__aenter__()
@@ -47,49 +48,41 @@ class MCPClient:
         if not self.session:
             raise RuntimeError("MCP client not connected. Call connect() first.")
 
-        try:
-            tools_result = await self.session.list_tools()
-            print(f"Retrieved {len(tools_result.tools)} tools from MCP server")
+        tools_result = await self.session.list_tools()
+        print(f"Retrieved {len(tools_result.tools)} tools from MCP server")
 
-            dial_tools = []
-            for tool in tools_result.tools:
-                dial_tool = {
-                    "type": "function",
-                    "function": {
-                        "name": tool.name,
-                        "description": tool.description,
-                        "parameters": tool.inputSchema
-                    }
+        dial_tools = []
+        for tool in tools_result.tools:
+            dial_tool = {
+                "type": "function",
+                "function": {
+                    "name": tool.name,
+                    "description": tool.description,
+                    "parameters": tool.inputSchema
                 }
-                dial_tools.append(dial_tool)
+            }
+            dial_tools.append(dial_tool)
 
-            return dial_tools
-        except Exception as e:
-            print(f"Error getting tools: {e}")
-            return []
+        return dial_tools
 
     async def call_tool(self, tool_name: str, tool_args: dict[str, Any]) -> Any:
         """Call a specific tool on the MCP server"""
         if not self.session:
             raise RuntimeError("MCP client not connected. Call connect() first.")
 
-        try:
-            print(f"Calling tool '{tool_name}' with args: {tool_args}")
-            tool_result: CallToolResult = await self.session.call_tool(tool_name, tool_args)
+        print(f"    Calling tool '{tool_name}' with args: {tool_args}")
+        tool_result: CallToolResult = await self.session.call_tool(tool_name, tool_args)
 
-            if not tool_result.content:
-                return "No content returned from tool"
+        if not tool_result.content:
+            return "No content returned from tool"
 
-            content = tool_result.content[0]
-            print(f"    ⚙️ Tool result: {content}")
+        content = tool_result.content[0]
+        print(f"    ⚙️ Tool result: {content}")
 
-            if isinstance(content, TextContent):
-                return content.text
+        if isinstance(content, TextContent):
+            return content.text
 
-            return str(content)
-        except Exception as e:
-            print(f"Error calling tool '{tool_name}': {e}")
-            return f"Error: {e}"
+        return str(content)
 
     async def get_resources(self) -> list[Resource]:
         """Get available resources from MCP server"""
