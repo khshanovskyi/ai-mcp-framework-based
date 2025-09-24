@@ -21,7 +21,7 @@ from mcp_server.user_client import UserClient
 # https://gofastmcp.com/servers/tools
 # ---
 # Tools:
-# 1. `get_user_id`:-
+# 1. `get_user_by_id`:-
 # 2. `delete_user`:-
 # 3. `search_user`:-
 # 4. `add_user`:-
