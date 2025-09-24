@@ -168,7 +168,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"tools/call\",\n    \"params\": {\n        \"name\": \"get_user_id\",\n        \"arguments\": {\n            \"user_id\": 999\n        }\n    }\n}",
+					"raw": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 1,\n    \"method\": \"tools/call\",\n    \"params\": {\n        \"name\": \"get_user_by_id\",\n        \"arguments\": {\n            \"user_id\": 999\n        }\n    }\n}",
 					"options": {
 						"raw": {
 							"language": "json"
