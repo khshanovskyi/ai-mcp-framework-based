@@ -16,7 +16,7 @@ user_client = UserClient()
 
 # ==================== EXISTING TOOLS ====================
 @mcp.tool()
-async def get_user_id(user_id: int) -> str:
+async def get_user_by_id(user_id: int) -> str:
     """Provides full user information by user_id"""
     return await user_client.get_user(user_id)
 
