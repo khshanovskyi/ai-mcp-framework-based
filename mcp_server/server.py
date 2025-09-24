@@ -21,7 +21,7 @@ from mcp_server.user_client import UserClient
 # https://gofastmcp.com/servers/tools
 # ---
 # Tools:
-# 1. `get_user_id`:-
+# 1. `get_user_by_id`:-
 #       - Documentation: """Provides full user information by user_id""", will be used as tool description, also you
 #         can provide it with `description` parameter in `tool()` decorator
 #       - applies `user_id: int`
